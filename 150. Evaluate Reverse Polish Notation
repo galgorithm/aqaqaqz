@@ -1,0 +1,20 @@
+class Solution {
+    int getEval(vector<string> &v, int &p){
+        if(isdigit(v[p][0]) || (v[p][0]=='-' && v[p].size()>1)){
+            return atoi(v[p--].c_str());
+        }
+        char c = v[p--][0];
+        int v1 = getEval(v, p);
+        int v2 = getEval(v, p);
+        
+        if(c == '+') return v1+v2;
+        else if(c == '*') return v1*v2;
+        else if(c == '/') return v2/v1;
+        else return v2-v1;
+    }
+public:
+    int evalRPN(vector<string>& tokens) {
+        int p = tokens.size()-1;
+        return getEval(tokens, p);
+    }
+};
