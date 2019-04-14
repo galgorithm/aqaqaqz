@@ -1,0 +1,28 @@
+class Solution {
+    vector<int> v;
+    int makeCoin(vector<int>& coins, int amount){
+        if(v[amount]!=0) return v[amount];
+        v[amount] = -1;
+        int temp = INT_MAX;
+        for(int c : coins){
+            if(c==amount){
+                v[amount] = 1;
+                return v[amount];
+            }
+            if(amount-c > 0){
+                int cnt = makeCoin(coins, amount-c);
+                if(cnt == -1) continue;
+                temp = min(temp, cnt+1);
+            }
+        }
+        if(temp != INT_MAX) v[amount] = temp;
+        return v[amount];
+    }
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        if(amount == 0) return 0;
+        v.resize(amount+1, 0);
+        makeCoin(coins, amount);
+        return v[amount];
+    }
+};
